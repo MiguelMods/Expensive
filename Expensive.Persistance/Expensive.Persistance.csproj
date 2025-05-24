@@ -18,6 +18,7 @@
   </ItemGroup>
 
   <ItemGroup>
+    <ProjectReference Include="..\Expensive.Application\Expensive.Application.csproj" />
     <ProjectReference Include="..\Expensive.Domain\Expensive.Domain.csproj" />
   </ItemGroup>
 
