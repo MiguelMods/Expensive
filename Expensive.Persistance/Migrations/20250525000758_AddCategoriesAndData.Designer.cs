@@ -12,8 +12,8 @@ using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 namespace Expensive.Persistance.Migrations
 {
     [DbContext(typeof(ExpensiveApplicationDataContext))]
-    [Migration("20250524230948_AddCategories")]
-    partial class AddCategories
+    [Migration("20250525000758_AddCategoriesAndData")]
+    partial class AddCategoriesAndData
     {
         /// <inheritdoc />
         protected override void BuildTargetModel(ModelBuilder modelBuilder)
@@ -65,7 +65,7 @@ namespace Expensive.Persistance.Migrations
                     b.Property<string>("RowGuid")
                         .ValueGeneratedOnAdd()
                         .HasColumnType("nvarchar(max)")
-                        .HasDefaultValue("NEWID()");
+                        .HasDefaultValueSql("NEWID()");
 
                     b.Property<DateTime>("UpdatedAt")
                         .ValueGeneratedOnUpdate()
@@ -90,10 +90,65 @@ namespace Expensive.Persistance.Migrations
                             CategorieId = 1,
                             CreatedAt = new DateTime(1, 1, 1, 0, 0, 0, 0, DateTimeKind.Unspecified),
                             CreatedBy = "Created By Default",
-                            Description = "Default category",
+                            Description = "Categoria de gastos del Hogar",
                             IsActive = false,
                             IsDeleted = false,
-                            Name = "Default",
+                            Name = "Hogar",
+                            UpdatedAt = new DateTime(1, 1, 1, 0, 0, 0, 0, DateTimeKind.Unspecified)
+                        },
+                        new
+                        {
+                            CategorieId = 2,
+                            CreatedAt = new DateTime(1, 1, 1, 0, 0, 0, 0, DateTimeKind.Unspecified),
+                            CreatedBy = "Created By Default",
+                            Description = "Categoria de gastos del Automovil",
+                            IsActive = false,
+                            IsDeleted = false,
+                            Name = "Automovil",
+                            UpdatedAt = new DateTime(1, 1, 1, 0, 0, 0, 0, DateTimeKind.Unspecified)
+                        },
+                        new
+                        {
+                            CategorieId = 3,
+                            CreatedAt = new DateTime(1, 1, 1, 0, 0, 0, 0, DateTimeKind.Unspecified),
+                            CreatedBy = "Created By Default",
+                            Description = "Categoria de gastos del Mascotas",
+                            IsActive = false,
+                            IsDeleted = false,
+                            Name = "Mascotas",
+                            UpdatedAt = new DateTime(1, 1, 1, 0, 0, 0, 0, DateTimeKind.Unspecified)
+                        },
+                        new
+                        {
+                            CategorieId = 4,
+                            CreatedAt = new DateTime(1, 1, 1, 0, 0, 0, 0, DateTimeKind.Unspecified),
+                            CreatedBy = "Created By Default",
+                            Description = "Categoria de gastos del Salud",
+                            IsActive = false,
+                            IsDeleted = false,
+                            Name = "Salud",
+                            UpdatedAt = new DateTime(1, 1, 1, 0, 0, 0, 0, DateTimeKind.Unspecified)
+                        },
+                        new
+                        {
+                            CategorieId = 5,
+                            CreatedAt = new DateTime(1, 1, 1, 0, 0, 0, 0, DateTimeKind.Unspecified),
+                            CreatedBy = "Created By Default",
+                            Description = "Categoria de gastos del Mercado",
+                            IsActive = false,
+                            IsDeleted = false,
+                            Name = "Mercado",
+                            UpdatedAt = new DateTime(1, 1, 1, 0, 0, 0, 0, DateTimeKind.Unspecified)
+                        },
+                        new
+                        {
+                            CategorieId = 6,
+                            CreatedAt = new DateTime(1, 1, 1, 0, 0, 0, 0, DateTimeKind.Unspecified),
+                            CreatedBy = "Created By Default",
+                            Description = "Categoria de gastos del Entretenimiento",
+                            IsActive = false,
+                            IsDeleted = false,
+                            Name = "Entretenimiento",
                             UpdatedAt = new DateTime(1, 1, 1, 0, 0, 0, 0, DateTimeKind.Unspecified)
                         });
                 });

@@ -3,10 +3,12 @@ using Microsoft.EntityFrameworkCore.Migrations;
 
 #nullable disable
 
+#pragma warning disable CA1814 // Prefer jagged arrays over multidimensional
+
 namespace Expensive.Persistance.Migrations
 {
     /// <inheritdoc />
-    public partial class AddCategories : Migration
+    public partial class AddCategoriesAndData : Migration
     {
         /// <inheritdoc />
         protected override void Up(MigrationBuilder migrationBuilder)
@@ -29,7 +31,7 @@ namespace Expensive.Persistance.Migrations
                     UpdatedBy = table.Column<string>(type: "nvarchar(100)", maxLength: 100, nullable: true),
                     IsActive = table.Column<bool>(type: "bit", nullable: false, defaultValue: true),
                     IsDeleted = table.Column<bool>(type: "bit", nullable: false, defaultValue: false),
-                    RowGuid = table.Column<string>(type: "nvarchar(max)", nullable: true, defaultValue: "NEWID()")
+                    RowGuid = table.Column<string>(type: "nvarchar(max)", nullable: true, defaultValueSql: "NEWID()")
                 },
                 constraints: table =>
                 {
@@ -40,7 +42,15 @@ namespace Expensive.Persistance.Migrations
                 schema: "dbo",
                 table: "Categories",
                 columns: new[] { "CategorieId", "CreatedBy", "Description", "Name", "UpdatedBy" },
-                values: new object[] { 1, "Created By Default", "Default category", "Default", null });
+                values: new object[,]
+                {
+                    { 1, "Created By Default", "Categoria de gastos del Hogar", "Hogar", null },
+                    { 2, "Created By Default", "Categoria de gastos del Automovil", "Automovil", null },
+                    { 3, "Created By Default", "Categoria de gastos del Mascotas", "Mascotas", null },
+                    { 4, "Created By Default", "Categoria de gastos del Salud", "Salud", null },
+                    { 5, "Created By Default", "Categoria de gastos del Mercado", "Mercado", null },
+                    { 6, "Created By Default", "Categoria de gastos del Entretenimiento", "Entretenimiento", null }
+                });
 
             migrationBuilder.CreateIndex(
                 name: "IX_Categories_Name",
