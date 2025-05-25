@@ -19,12 +19,47 @@ public class CategoriesEntityConfiguration : IEntityTypeConfiguration<Categories
         builder.Property(x => x.UpdatedAt).ValueGeneratedOnUpdate().HasDefaultValueSql("GETDATE()");
         builder.Property(x => x.IsActive).HasDefaultValue(true);
         builder.Property(x => x.IsDeleted).HasDefaultValue(false);
-        builder.Property(x => x.RowGuid).ValueGeneratedOnAdd().HasDefaultValue("NEWID()");
+        builder.Property(x => x.RowGuid).ValueGeneratedOnAdd().HasDefaultValueSql("NEWID()");
         builder.HasData(new Categories
         {
             CategorieId = 1,
-            Name = "Default",
-            Description = "Default category",
+            Name = "Hogar",
+            Description = "Categoria de gastos del Hogar",
+            CreatedBy = "Created By Default"
+        }, 
+        new Categories() 
+        {
+            CategorieId = 2,
+            Name = "Automovil",
+            Description = "Categoria de gastos del Automovil",
+            CreatedBy = "Created By Default"
+        },
+        new Categories()
+        {
+            CategorieId = 3,
+            Name = "Mascotas",
+            Description = "Categoria de gastos del Mascotas",
+            CreatedBy = "Created By Default"
+        },
+        new Categories()
+        {
+            CategorieId = 4,
+            Name = "Salud",
+            Description = "Categoria de gastos del Salud",
+            CreatedBy = "Created By Default"
+        },
+        new Categories() 
+        {
+            CategorieId = 5,
+            Name = "Mercado",
+            Description = "Categoria de gastos del Mercado",
+            CreatedBy = "Created By Default"
+        },
+        new Categories() 
+        {
+            CategorieId = 6,
+            Name = "Entretenimiento",
+            Description = "Categoria de gastos del Entretenimiento",
             CreatedBy = "Created By Default"
         });
     }
