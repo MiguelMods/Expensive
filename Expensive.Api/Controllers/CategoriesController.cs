@@ -31,7 +31,7 @@ namespace Expensive.Api.Controllers
             Expression<Func<Categories, bool>> expression = parameterName switch
             {
                 "categoriesId" => (x => x.CategorieId == long.Parse(parameterValue)),
-                "Description" => x => x.Description == parameterValue,
+                "Name" => x => x.Name == parameterValue,
                 _ => throw new ArgumentException("Invalid parameter name")
             };
             var categories = await UnitOfWork.Categories.GetByExpressionAsync(expression);

@@ -1,6 +1,15 @@
 @Expensive.Api_HostAddress = http://localhost:5069
+@apiUrl = {{Expensive.Api_HostAddress}}/api
+@categoesUrl = {{apiUrl}}/categories
 
-GET {{Expensive.Api_HostAddress}}/weatherforecast/
-Accept: application/json
+### Get all Categories
+GET {{categoesUrl}}
 
-###
+### Get Categorie by RowGuid
+GET {{categoesUrl}}/6B828A5B-D6D5-4667-BB81-0CF54E520D72
+
+### Get Categorie by categoriesId or Description
+GET {{categoesUrl}}/categoriesId/2
+
+### Get Categorie by Description or Name
+GET {{categoesUrl}}/Name/Hogar
