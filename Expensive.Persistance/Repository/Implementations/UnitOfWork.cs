@@ -7,6 +7,7 @@ namespace Expensive.Persistance.Repository.Implementations;
 public class UnitOfWork(ExpensiveApplicationDataContext expensiveApplicationDataContext) : IUnitOfWork
 {
     public ICategoriesRepository Categories => new CategoriesRepository(expensiveApplicationDataContext);
+    public ICategoryRespositoryWithResponse CategoryRespositoryWithResponse => new CategoriesRepositoryWithResponse(expensiveApplicationDataContext);
     public IGenericRepository<Type> GenericRepository<Type>() where Type : BaseEntity => new GenericRepository<Type>(expensiveApplicationDataContext);
 
     public async Task<int> SaveChangesAsync()
