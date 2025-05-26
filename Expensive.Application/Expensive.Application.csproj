@@ -10,4 +10,8 @@
     <ProjectReference Include="..\Expensive.Domain\Expensive.Domain.csproj" />
   </ItemGroup>
 
+  <ItemGroup>
+    <Folder Include="Result\" />
+  </ItemGroup>
+
 </Project>

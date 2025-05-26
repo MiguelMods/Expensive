@@ -12,3 +12,13 @@ public interface IGenericRepository<Type> where Type : BaseEntity
     Task<Type?> UpdateAsync(Type entity);
     Task<bool> DeleteAsync(int id);
 }
+
+public interface IGenericRepository<TEntity, TResponse> where TEntity : BaseEntity
+{
+    Task<IEnumerable<TResponse?>> GetAllAsync();
+    Task<TResponse?> GetByRowGuidAsync(string rowGuid);
+    Task<TResponse?> GetByExpressionAsync(Expression<Func<TEntity, bool>> expression);
+    Task<TResponse?> AddAsync(TEntity entity);
+    Task<TResponse?> UpdateAsync(TEntity entity);
+    Task<bool> DeleteAsync(int id);
+}
