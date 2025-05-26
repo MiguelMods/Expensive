@@ -1,6 +1,8 @@
-@Expensive.Api_HostAddress = http://localhost:5069
+@Expensive.Api_HostAddress = https://localhost:44333
+@api_url = {{Expensive.Api_HostAddress}}/api
+@categories = {{api_url}}/Categories
 
-GET {{Expensive.Api_HostAddress}}/weatherforecast/
+GET {{categories}}
 Accept: application/json
 
 ###

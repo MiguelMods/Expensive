@@ -1,40 +1,25 @@
-﻿using Expensive.Application.Repository.Contract;
-using Expensive.Domain.Entities;
+﻿using Expensive.Application.Services.Contracts;
 using Microsoft.AspNetCore.Mvc;
-using System.Linq.Expressions;
 
 namespace Expensive.Api.Controllers
 {
     [Route("api/[controller]")]
     [ApiController]
-    public class CategoriesController(IUnitOfWork unitOfWork) : ControllerBase
+    public class CategoriesController(ICategorieService categorieService) : ControllerBase
     {
-        private IUnitOfWork UnitOfWork { get; } = unitOfWork;
+        public ICategorieService CategorieService { get; } = categorieService;
 
         [HttpGet("")]
         public async Task<IActionResult> Get()
         {
-            var categories = await UnitOfWork.Categories.GetAllAsync();
+            var categories = await CategorieService.GetAllAsync();
             return Ok(categories);
         }
 
         [HttpGet("{rowguid}")]
         public async Task<IActionResult> Get(string rowguid)
         {
-            var categories = await UnitOfWork.Categories.GetByRowGuidAsync(rowguid);
-            return Ok(categories);
-        }
-
-        [HttpGet("{parameterName}/{parameterValue}")]
-        public async Task<IActionResult> Get(string parameterName, string parameterValue)
-        {
-            Expression<Func<Categories, bool>> expression = parameterName switch
-            {
-                "categoriesId" => (x => x.CategorieId == long.Parse(parameterValue)),
-                "Description" => x => x.Description == parameterValue,
-                _ => throw new ArgumentException("Invalid parameter name")
-            };
-            var categories = await UnitOfWork.Categories.GetByExpressionAsync(expression);
+            var categories = await CategorieService.GetByRowGuidAsync(rowguid);
             return Ok(categories);
         }
     }
