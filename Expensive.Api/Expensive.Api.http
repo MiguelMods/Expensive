@@ -2,7 +2,19 @@
 @api_url = {{Expensive.Api_HostAddress}}/api
 @categories = {{api_url}}/Categories
 
+### Get all Categories registered
 GET {{categories}}
 Accept: application/json
 
-###
+### Get by Rowguid
+GET {{categories}}/FF402B3C-5F48-4EBE-8432-611081B33E27
+Accept: application/json
+
+### Add new Categorie only need a Name and Description
+POST {{categories}}
+Accept: application/json
+Content-type: application/json
+{
+    "name": "Prueba",
+    "description": "Prueba de descripcion"
+}

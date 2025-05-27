@@ -16,6 +16,12 @@ public class Result<Type>
         Messages = string.Empty,
         Data = data
     };
+    public static Result<Type> Success(Type data, string messages) => new()
+    {
+        IsSuccess = true,
+        Messages = messages,
+        Data = data
+    };
     public static Result<Type> Failure(string message) => new()
     {
         IsSuccess = false,
