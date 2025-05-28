@@ -1,41 +1,45 @@
-﻿using Expensive.Application.Repository.Contract;
-using Expensive.Domain.Entities;
-using Microsoft.AspNetCore.Mvc;
-using System.Linq.Expressions;
+﻿using Microsoft.AspNetCore.Mvc;
+using Expensive.Application.Services.Contracts;
+using Expensive.Common.Results;
 
 namespace Expensive.Api.Controllers
 {
     [Route("api/[controller]")]
     [ApiController]
-    public class CategoriesController(IUnitOfWork unitOfWork) : ControllerBase
+    public class CategoriesController(IReadOnlyCategorieService service) : ControllerBase
     {
-        private IUnitOfWork UnitOfWork { get; } = unitOfWork;
+        public IReadOnlyCategorieService Service { get; } = service;
 
         [HttpGet("")]
         public async Task<IActionResult> Get()
         {
-            var categories = await UnitOfWork.Categories.GetAllAsync();
-            return Ok(categories);
+            var result = await Service.GetAllAsync();
+            return result is null ? 
+                BadRequest(result.Failure()) : Ok(result.Success());
         }
 
         [HttpGet("{rowguid}")]
-        public async Task<IActionResult> Get(string rowguid)
+        public async Task<IActionResult> GetByRowGuid(string rowguid)
         {
-            var categories = await UnitOfWork.Categories.GetByRowGuidAsync(rowguid);
-            return Ok(categories);
+            var result = await Service.GetByRowGuidAsync(rowguid);
+            return result is null ? 
+                NotFound(result.Failure($"Value not found for: {rowguid}")) : Ok(result.Success());
         }
 
-        [HttpGet("{parameterName}/{parameterValue}")]
-        public async Task<IActionResult> Get(string parameterName, string parameterValue)
+        [HttpGet("expression/{parameterName}/{parameterValue}")]
+        public async Task<IActionResult> GetByExpression(string parameterName, string parameterValue)
         {
-            Expression<Func<Categories, bool>> expression = parameterName switch
-            {
-                "categoriesId" => (x => x.CategorieId == long.Parse(parameterValue)),
-                "Description" => x => x.Description == parameterValue,
-                _ => throw new ArgumentException("Invalid parameter name")
-            };
-            var categories = await UnitOfWork.Categories.GetByExpressionAsync(expression);
-            return Ok(categories);
+            var result = await Service.GetByParameterNameAndValueAsync(parameterName, parameterValue);
+            return result is null ? 
+                NotFound(result.Failure($"Value not found for: {parameterName} and {parameterValue}")) : Ok(result.Success());
+        }
+
+        [HttpGet("like/{parameterName}/{parameterValue}")]
+        public async Task<IActionResult> GetByLikeExpression(string parameterName, string parameterValue)
+        {
+            var result = await Service.GetByLikeByParameterNameAndValueAsync(parameterName, parameterValue);
+            return result is null ? 
+                NotFound(result.Failure($"Value not found for: {parameterName} and {parameterValue}")) : Ok(result.Success());
         }
     }
 }
