@@ -16,9 +16,12 @@ public class GenericRepository<Type>(ExpensiveApplicationDataContext expensiveAp
         => await ExpensiveApplicationDataContext.Set<Type>().FirstOrDefaultAsync(x => x.RowGuid == rowGuid);
     public async Task<Type?> GetByExpressionAsync(Expression<Func<Type, bool>> expression)
         => await ExpensiveApplicationDataContext.Set<Type>().FirstOrDefaultAsync(expression);
-    public Task<Type?> AddAsync(Type entity)
+    public async Task<IEnumerable<Type?>> GetByLikeExpressionAsync(Expression<Func<Type, bool>> expression)
+        => await ExpensiveApplicationDataContext.Set<Type>().Where(expression).ToListAsync();
+    public async Task<Type?> AddAsync(Type entity)
     {
-        throw new NotImplementedException();
+        var newEntity = await ExpensiveApplicationDataContext.Set<Type>().AddAsync(entity);
+        return newEntity.Entity;
     }
     public Task<Type?> UpdateAsync(Type entity)
     {
