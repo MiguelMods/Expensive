@@ -11,13 +11,13 @@ public class Result<Type>
         Data = default,
         Message = null
     };
-    public static Result<Type> Success(Type data, string? message = null) => new()
+    public static Result<Type> Success(Type? data, string? message = null) => new()
     {
         IsSuccess = true,
         Data = data,
         Message = message
     };
-    public static Result<Type> Failure(string message) => new()
+    public static Result<Type> Failure(string? message) => new()
     {
         IsSuccess = false,
         Data = default,

@@ -2,11 +2,9 @@
 
 public static class ResultExtension
 {
-    public static Result<Type> ToResult<Type>(this Type? data, string? message = null)
-    {
-        if (data is null)
-            return Result<Type>.Failure("Data is null");
+    public static Result<Type> Success<Type>(this Type? data, string? message = null)
+        => Result<Type>.Success(data, message);
 
-        return Result<Type>.Success(data, message);
-    }
+    public static Result<Type> Failure<Type>(this Type? data, string? message = null) => 
+        Result<Type>.Failure(message);
 }
