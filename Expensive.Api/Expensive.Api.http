@@ -1,13 +1,8 @@
 @Expensive.Api_HostAddress = http://localhost:44133
 @rowguid = 83ACBDD1-8657-435A-AA7E-2FE643608F8
 
-###READ ONLY CATEGORIES
 ### Get all categories
 GET {{Expensive.Api_HostAddress}}/api/categories
-Accept: application/json
-
-### Get by Rowguid
-GET {{Expensive.Api_HostAddress}}/api/categories/{{rowguid}}
 Accept: application/json
 
 ### get by parameter and value
