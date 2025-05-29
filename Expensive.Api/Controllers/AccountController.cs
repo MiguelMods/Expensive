@@ -3,7 +3,6 @@ using Expensive.Application.Responses;
 using Expensive.Application.Services.Contracts;
 using Expensive.Common.Results;
 using Microsoft.AspNetCore.Mvc;
-using System.Threading.Tasks;
 
 namespace Expensive.Api.Controllers
 {

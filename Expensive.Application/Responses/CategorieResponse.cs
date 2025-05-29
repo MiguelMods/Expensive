@@ -22,8 +22,6 @@ namespace Expensive.Application.Responses
                 CreatedBy = entity.CreatedBy,
                 UpdatedAt = entity.UpdatedAt,
                 UpdatedBy = entity.UpdatedBy,
-                IsActive = entity.IsActive,
-                IsDeleted = entity.IsDeleted,
                 RowGuid = entity.RowGuid
             };
     }
