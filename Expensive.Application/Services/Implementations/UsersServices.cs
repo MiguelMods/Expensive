@@ -1,25 +1,51 @@
 ﻿using Expensive.Application.Repository.Contract;
 using Expensive.Application.Services.Contracts;
 using Expensive.Domain.Entities;
+using Microsoft.AspNetCore.Http;
+using System.Security.Claims;
 
 namespace Expensive.Application.Services.Implementations;
 
-public class UsersService(IUnitOfWork unitOfWork) : Service<Users>(unitOfWork), IUsersService
+public class UsersService(IUnitOfWork unitOfWork, IHashPassordService hashPassordService, IHttpContextUserHelper httpContextUserHelper) : Service<Users>(unitOfWork), IUsersService
 {
-    IUsersRepository UsersRepository => unitOfWork.Users;
+    public IUsersRepository UsersRepository => unitOfWork.Users;
+    public IHashPassordService HashPassordService { get; } = hashPassordService;
+    public IHttpContextUserHelper HttpContextUserHelper { get; } = httpContextUserHelper;
+
+    private readonly string invalidUserNamePasswordMessage = "Invalid username or password.";
 
     public Task<Users?> GetByEmailAsync(string email)
         => UsersRepository.GetByEmailAsync(email);
 
-    public Task<Users?> GetByUserNameAndPassword(string userName, string password)
-        => UsersRepository.GetByUserNameAndPassword(userName, password);
+    public async Task<Users?> GetByUserNameAndPassword(string userName, string password)
+    { 
+        var userByUserName = await UsersRepository.GetByUserNameAndPassword(userName);
+        
+        var passwordIsValid = await HashPassordService.VerifyPassword(userByUserName?.Password!, password);
+
+        if(!passwordIsValid)
+            throw new Exception(invalidUserNamePasswordMessage);
+
+        return userByUserName;
+    }
 
     public Task<Users?> GetByUserNameAsync(string userName)
         => UsersRepository.GetByUserNameAsync(userName);
 
     public async Task<bool> UpdateOldPasswordToPassword(string userName, string oldPassword, string newPassword) 
     {
-        await UsersRepository.UpdateOldPasswordToPassword(userName, oldPassword, newPassword);
+        var userByUserName = await UsersRepository.GetByUserNameAndPassword(userName) ?? throw new Exception(invalidUserNamePasswordMessage);
+
+        var oldPasswordIsValid = await HashPassordService.VerifyPassword(userByUserName?.Password!, oldPassword);
+
+        if (!oldPasswordIsValid)
+            throw new Exception(invalidUserNamePasswordMessage);
+
+        var hashedNewPassword = await HashPassordService.HashPassword(newPassword);
+
+        var updateBy = httpContextUserHelper.GetName() ?? userName;
+
+        await UsersRepository.UpdateOldPasswordToPassword(userName, userByUserName?.Password!, hashedNewPassword, updateBy);
 
         if (await unitOfWork.SaveChangesAsync() <= 0)
             throw new InvalidOperationException("Failed to update password in the database.");
@@ -27,10 +53,20 @@ public class UsersService(IUnitOfWork unitOfWork) : Service<Users>(unitOfWork), 
         return true;
     }
          
-
     public async Task<bool> UpdateUserPassword(string userName, string password) 
     {
-        await UsersRepository.UpdateUserPassword(userName, password);
+        var userByUserName = await UsersRepository.GetByUserNameAsync(userName) ?? throw new Exception(invalidUserNamePasswordMessage);
+
+        var passwordIsValid = await HashPassordService.VerifyPassword(userByUserName?.Password!, password);
+
+        if (!passwordIsValid)
+            throw new Exception(invalidUserNamePasswordMessage);
+
+        var hashedPassword = await HashPassordService.HashPassword(password);
+
+        var updateBy = httpContextUserHelper.GetName() ?? userName;
+
+        await UsersRepository.UpdateUserPassword(userName, hashedPassword, updateBy);
 
         if (await UnitOfWork.SaveChangesAsync() <= 0)
             throw new InvalidOperationException("Failed to update password in the database.");
@@ -50,7 +86,8 @@ public class UsersService(IUnitOfWork unitOfWork) : Service<Users>(unitOfWork), 
         if (emailExists != null)
             throw new InvalidOperationException("Email already exists.");
 
-        users.CreatedBy = users.Email;
+        users.Password = await HashPassordService.HashPassword(users.Password!);
+        users.CreatedBy = httpContextUserHelper.GetName() ?? users.Email;
 
         var addedEntity = await UsersRepository.AddAsync(users) ?? throw new InvalidOperationException("User registration failed.");
         

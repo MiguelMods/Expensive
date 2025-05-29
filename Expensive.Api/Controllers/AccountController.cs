@@ -48,7 +48,7 @@ namespace Expensive.Api.Controllers
 
         [HttpPut("ChangePassword"), Authorize]
         public async Task<IActionResult> ChangePassword([FromBody] AccountChangePasswordRequest request) 
-        {
+        {            
             var updateResult = await UserService.UpdateOldPasswordToPassword(request.UserName, request.OldPassword, request.NewPassord);
 
             if (!updateResult)

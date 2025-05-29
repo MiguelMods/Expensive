@@ -51,11 +51,21 @@ Accept: application/json
 GET {{Expensive.Api_HostAddress}}/api/JwtToken/Proof
 Accept: application/json
 
-###
-
-GET {{Expensive.Api_HostAddress}}/api/JwtToken/Proof
+### JWTToken password
+GET {{Expensive.Api_HostAddress}}/api/JwtToken/password
 Accept: application/json
-Authorization: Bearer 
+
+### JWTToken password
+GET {{Expensive.Api_HostAddress}}/api/JwtToken/password
+
+### JWTToken revealed
+
+POST {{Expensive.Api_HostAddress}}/api/JwtToken/revealed
+Accept: application/json
+Content-type: application/json
+{
+  "HashedPassword": "$2a$10$I926KNeYnha8lKQWjR6Zv.l3/Dzd4n9cM6O9.F2j2g8T6Ekf8bnMy"
+}
 ###
 
 # @name generatetoken
@@ -78,8 +88,8 @@ POST {{Expensive.Api_HostAddress}}/api/Account/Login
 Accept: application/json
 Content-type: application/json
 {
-    "UserName" : "mmata",
-    "Password" : "R@m0$$@123456%%"
+    "UserName" : "holguin",
+    "Password" : "jose@123A"
 }
 
 ### Register
@@ -87,20 +97,20 @@ POST {{Expensive.Api_HostAddress}}/api/Account/Register
 Accept: application/json
 Content-type: application/json
 {
-    "FirtName" : "Miguel Jose",
-    "LastName" : "Mata Ramos",
-    "Email" : "mmata@altice.com.do",
-    "UserName" : "mmata",
+    "FirtName" : "Hector Olguin",
+    "LastName" : "Baez Martes",
+    "Email" : "holguin@gmail.com",
+    "UserName" : "holguin",
     "Password" : "jose@123A"
 }
 
 ### ChangePassword
 PUT {{Expensive.Api_HostAddress}}/api/Account/ChangePassword
 Accept: application/json
-Authorization: Bearer 
+Authorization: Bearer eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJuYW1lIjoiaG9sZ3VpbiIsIm5pY2tuYW1lIjoiaG9sZ3VpbiIsImVtYWlsIjoiaG9sZ3VpbkBnbWFpbC5jb20iLCJyb2xlIjoiZ2VuZXJpYyIsImp0aSI6IjNmMjZjODI5LTMzOWUtNDk0Ni05MTM0LWM2MDk2ZDhiYzQ0YyIsImV4cCI6MTc0ODU0OTI4MywiaXNzIjoiaHR0cDovL2xvY2FsaG9zdDo0NDEzMyIsImF1ZCI6Imh0dHA6Ly9sb2NhbGhvc3Q6NDQxMzMifQ.Enaq8qifjadnndeUO6KapzShU4BMg0wUvwmzBv5q44U
 Content-type: application/json
 {
-    "UserName": "mmata",
+    "UserName": "mjmataramos",
     "OldPassword" : "jose@123A",
     "NewPassord" : "R@m0$$@123456%%"
 }
