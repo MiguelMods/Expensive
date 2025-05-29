@@ -4,7 +4,7 @@ using Expensive.Domain.Entities;
 
 namespace Expensive.Application.Services.Implementations;
 
-public class UsersServices(IUnitOfWork unitOfWork) : Service<Users>(unitOfWork), IUsersService
+public class UsersService(IUnitOfWork unitOfWork) : Service<Users>(unitOfWork), IUsersService
 {
     IUsersRepository UsersRepository => unitOfWork.Users;
 
@@ -17,23 +17,40 @@ public class UsersServices(IUnitOfWork unitOfWork) : Service<Users>(unitOfWork),
     public Task<Users?> GetByUserNameAsync(string userName)
         => UsersRepository.GetByUserNameAsync(userName);
 
-    public Task<bool> UpdateOldPasswordToPassword(string userName, string oldPassword, string newPassword)
-        => UsersRepository.UpdateOldPasswordToPassword(userName, oldPassword, newPassword);
+    public async Task<bool> UpdateOldPasswordToPassword(string userName, string oldPassword, string newPassword) 
+    {
+        await UsersRepository.UpdateOldPasswordToPassword(userName, oldPassword, newPassword);
 
-    public Task<bool> UpdateUserPassword(string userName, string password)
-        => UsersRepository.UpdateUserPassword(userName, password);
+        if (await unitOfWork.SaveChangesAsync() <= 0)
+            throw new InvalidOperationException("Failed to update password in the database.");
+
+        return true;
+    }
+         
+
+    public async Task<bool> UpdateUserPassword(string userName, string password) 
+    {
+        await UsersRepository.UpdateUserPassword(userName, password);
+
+        if (await UnitOfWork.SaveChangesAsync() <= 0)
+            throw new InvalidOperationException("Failed to update password in the database.");
+
+        return true;
+    }
 
     public async Task<Users?> RegisterAsync(Users users)
     {
-        var userNameExists = UsersRepository.GetByUserNameAsync(users.UserName!);
+        var userNameExists = await UsersRepository.GetByUserNameAsync(users.UserName!);
 
         if (userNameExists != null)
             throw new InvalidOperationException("Username already exists.");
 
-        var emailExists = UsersRepository.GetByEmailAsync(users.Email!);
+        var emailExists = await UsersRepository.GetByEmailAsync(users.Email!);
 
         if (emailExists != null)
             throw new InvalidOperationException("Email already exists.");
+
+        users.CreatedBy = users.Email;
 
         var addedEntity = await UsersRepository.AddAsync(users) ?? throw new InvalidOperationException("User registration failed.");
         
