@@ -42,3 +42,66 @@ Content-type: application/json
     "Operation" : "Expensive"
     "Rowguid": "{{rowguid}}"
 }
+
+### JWTToken Generation
+GET {{Expensive.Api_HostAddress}}/api/JwtToken/Generate
+Accept: application/json
+    
+### JWTToken Proof
+GET {{Expensive.Api_HostAddress}}/api/JwtToken/Proof
+Accept: application/json
+
+###
+
+GET {{Expensive.Api_HostAddress}}/api/JwtToken/Proof
+Accept: application/json
+Authorization: Bearer eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJzdWIiOiJtaWd1ZWxtb2RkIiwiZW1haWwiOiJtaWd1ZWxtb2RkQGdtYWlsLmNvbSIsInJvbGUiOiJkZWZhdWx0IiwianRpIjoiYzVhMTQwZjktZWJmZS00ZTM0LTkxYTctZTRhN2I2NzA3NzYyIiwiZXhwIjoxNzQ4NTI2MDA3LCJpc3MiOiJodHRwOi8vbG9jYWxob3N0OjQ0MTMzIiwiYXVkIjoiaHR0cDovL2xvY2FsaG9zdDo0NDEzMyJ9.KcQ3U_7kIBACyne6KyS7sySHK3522qUvBmrFML-L0VI
+
+###
+
+# @name generatetoken
+
+GET {{Expensive.Api_HostAddress}}/api/JwtToken/Generate
+Accept: application/json
+ 
+###
+
+GET {{Expensive.Api_HostAddress}}/api/JwtToken/Proof
+Accept: application/json
+Authorization: Bearer {{generatetoken.response.body.$.token}}
+
+###
+
+
+### Account Controller Login and Register
+### Login user intro app and generate JWT Token
+POST {{Expensive.Api_HostAddress}}/api/Account/Login
+Accept: application/json
+Content-type: application/json
+{
+    "UserName" : "mmata",
+    "Password" : "R@m0$$@123456%%"
+}
+
+### Register
+POST {{Expensive.Api_HostAddress}}/api/Account/Register
+Accept: application/json
+Content-type: application/json
+{
+    "FirtName" : "Miguel Jose",
+    "LastName" : "Mata Ramos",
+    "Email" : "mmata@altice.com.do",
+    "UserName" : "mmata",
+    "Password" : "jose@123A"
+}
+
+### ChangePassword
+PUT {{Expensive.Api_HostAddress}}/api/Account/ChangePassword
+Accept: application/json
+Authorization: Bearer eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJzdWIiOiJtbWF0YSIsImVtYWlsIjoibW1hdGFAYWx0aWNlLmNvbS5kbyIsInJvbGUiOiJnZW5lcmljIiwianRpIjoiNDg3NzUxOGUtYmFkNi00YjY4LWE2NjQtNDZhM2ZhOWVjMmFhIiwiZXhwIjoxNzQ4NTI4OTA2LCJpc3MiOiJodHRwOi8vbG9jYWxob3N0OjQ0MTMzIiwiYXVkIjoiaHR0cDovL2xvY2FsaG9zdDo0NDEzMyJ9.Ovsv8N9yqLSaRWJ5ZB7Li_RhSBmPYm2FNXPI3oK0aM4
+Content-type: application/json
+{
+    "UserName": "mmata",
+    "OldPassword" : "jose@123A",
+    "NewPassord" : "R@m0$$@123456%%"
+}
