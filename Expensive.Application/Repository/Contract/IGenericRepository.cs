@@ -11,5 +11,5 @@ public interface IGenericRepository<Type> where Type : BaseEntity
     Task<IEnumerable<Type?>> GetByLikeExpressionAsync(Expression<Func<Type, bool>> expression);
     Task<Type?> AddAsync(Type entity);
     Task<Type?> UpdateAsync(Type entity);
-    Task<bool> DeleteAsync(int id);
+    Task<bool> DeleteAsync(string rowGuid);
 }
