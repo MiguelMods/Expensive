@@ -11,21 +11,34 @@ public class GenericRepository<Type>(ExpensiveApplicationDataContext expensiveAp
     public ExpensiveApplicationDataContext ExpensiveApplicationDataContext { get; } = expensiveApplicationDataContext;
 
     public async Task<IEnumerable<Type?>> GetAllAsync()
-        => await ExpensiveApplicationDataContext.Set<Type>().ToListAsync();
+        => await ExpensiveApplicationDataContext.Set<Type>().Where(x => x.IsDeleted != true).ToListAsync();
     public async Task<Type?> GetByRowGuidAsync(string rowGuid)
-        => await ExpensiveApplicationDataContext.Set<Type>().FirstOrDefaultAsync(x => x.RowGuid == rowGuid);
+        => await ExpensiveApplicationDataContext.Set<Type>().Where(x => x.IsDeleted != true).FirstOrDefaultAsync(x => x.RowGuid == rowGuid);
     public async Task<Type?> GetByExpressionAsync(Expression<Func<Type, bool>> expression)
-        => await ExpensiveApplicationDataContext.Set<Type>().FirstOrDefaultAsync(expression);
-    public Task<Type?> AddAsync(Type entity)
+        => await ExpensiveApplicationDataContext.Set<Type>().Where(x => x.IsDeleted != true).FirstOrDefaultAsync(expression);
+    public async Task<IEnumerable<Type?>> GetByLikeExpressionAsync(Expression<Func<Type, bool>> expression)
+        => await ExpensiveApplicationDataContext.Set<Type>().Where(x => x.IsDeleted != true).Where(expression).ToListAsync();
+    public async Task<Type?> AddAsync(Type entity)
     {
-        throw new NotImplementedException();
+        var newEntity = await ExpensiveApplicationDataContext.Set<Type>().AddAsync(entity);
+        return newEntity.Entity;
     }
     public Task<Type?> UpdateAsync(Type entity)
     {
-        throw new NotImplementedException();
+        var updateEntity = ExpensiveApplicationDataContext.Set<Type>().Update(entity);
+        return Task.FromResult<Type?>(updateEntity.Entity);
     }
-    public Task<bool> DeleteAsync(int id)
+    public async Task<bool> DeleteAsync(int id)
     {
-        throw new NotImplementedException();
+        var entity = await ExpensiveApplicationDataContext.Set<Type>().FindAsync(id) ?? throw new Exception($"Entity with Id: {id} not found");
+
+        if (entity.IsDeleted)
+            return true;
+
+        entity.IsDeleted = true;
+        entity.UpdatedAt = DateTime.UtcNow;
+        ExpensiveApplicationDataContext.Set<Type>().Update(entity);
+        
+        return true;
     }
 }
