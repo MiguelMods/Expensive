@@ -1,11 +1,14 @@
-﻿using Expensive.Application.Services.Contracts;
+﻿using Expensive.Application.Repository.Contract;
+using Expensive.Application.Services.Contracts;
 using Expensive.Domain.Entities;
 using System.Linq.Expressions;
 
 namespace Expensive.Application.Services.Implementations;
 
-public class Service<Type> : IService<Type> where Type : BaseEntity
+public class Service<Type>(IUnitOfWork unitOfWork) : IService<Type> where Type : BaseEntity
 {
+    public IUnitOfWork UnitOfWork { get; } = unitOfWork;
+
     public Task<Type?> AddAsync(Type entity)
     {
         throw new NotImplementedException();
