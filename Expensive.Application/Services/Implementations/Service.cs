@@ -1,38 +1,68 @@
-﻿using Expensive.Application.Services.Contracts;
+﻿using Expensive.Application.Repository.Contract;
+using Expensive.Application.Services.Contracts;
 using Expensive.Domain.Entities;
-using System.Linq.Expressions;
 
 namespace Expensive.Application.Services.Implementations;
 
-public class Service<Type> : IService<Type> where Type : BaseEntity
+public class Service<Type>(IUnitOfWork unitOfWork) : IService<Type> where Type : BaseEntity
 {
-    public Task<Type?> AddAsync(Type entity)
+    public IUnitOfWork UnitOfWork { get; } = unitOfWork;
+    public IGenericRepository<Type> GenericRepository => UnitOfWork.GenericRepository<Type>();
+    public async Task<IEnumerable<Type?>> GetAllAsync()
     {
-        throw new NotImplementedException();
+        var entities = await GenericRepository.GetAllAsync();
+        return entities;
     }
 
-    public Task<bool> DeleteAsync(int id)
+    public async Task<Type?> GetByRowGuidAsync(string rowGuid)
     {
-        throw new NotImplementedException();
+        var entities = await GenericRepository.GetByRowGuidAsync(rowGuid);
+        return entities;
     }
 
-    public Task<IEnumerable<Type?>> GetAllAsync()
+    public async Task<Type?> AddAsync(Type entity)
     {
-        throw new NotImplementedException();
+        var addedEntity = await GenericRepository.AddAsync(entity) ?? throw new InvalidOperationException("Failed to add entity.");
+        
+        var saveResult = await UnitOfWork.SaveChangesAsync();
+
+        if(saveResult <= 0)
+            throw new InvalidOperationException("Failed to save changes to the database.");
+
+        return addedEntity;
     }
 
-    public Task<Type?> GetByExpressionAsync(Expression<Func<Type, bool>> expression)
+    public async Task<Type?> UpdateAsync(Type entity)
     {
-        throw new NotImplementedException();
+        var entityToUpdateExist = await GenericRepository.GetByRowGuidAsync(entity.RowGuid);
+
+        if (entityToUpdateExist == null)
+            throw new InvalidOperationException("Entity not found");
+
+        var updateEntity = await GenericRepository.UpdateAsync(entity) ?? throw new InvalidOperationException("Failed to add entity.");
+        
+        var saveResult = await UnitOfWork.SaveChangesAsync();
+
+        if (saveResult <= 0)
+            throw new InvalidOperationException("Failed to save changes to the database.");
+
+        return updateEntity;
     }
 
-    public Task<Type?> GetByRowGuidAsync(string rowGuid)
+    public async Task<bool> DeleteAsync(string rowGuid)
     {
-        throw new NotImplementedException();
-    }
+        var entity = await GenericRepository.GetByRowGuidAsync(rowGuid) ?? throw new InvalidOperationException($"Entity with RowGuid {rowGuid} not found.");
+        
+        var deleteEntity = await GenericRepository.DeleteAsync(entity.RowGuid!);
+        
+        if (!deleteEntity)
+            throw new InvalidOperationException($"Failed to delete entity with RowGuid {rowGuid}.");
 
-    public Task<Type?> UpdateAsync(Type entity)
-    {
-        throw new NotImplementedException();
+        var saveResult = await UnitOfWork.SaveChangesAsync();
+
+        if (saveResult <= 0)
+            throw new InvalidOperationException("Failed to save changes to the database.");
+
+        return true;
     }
 }
