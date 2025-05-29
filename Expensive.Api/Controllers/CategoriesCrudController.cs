@@ -2,12 +2,14 @@
 using Expensive.Application.Responses;
 using Expensive.Application.Services.Contracts;
 using Expensive.Common.Results;
+using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
 
 namespace Expensive.Api.Controllers
 {
     [Route("api/[controller]")]
     [ApiController]
+    [Authorize]
     public class CategoriesCrudController(ICategorieService categorieService) : ControllerBase
     {
         public ICategorieService CategorieService { get; } = categorieService;

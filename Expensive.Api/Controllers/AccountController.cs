@@ -2,6 +2,7 @@
 using Expensive.Application.Responses;
 using Expensive.Application.Services.Contracts;
 using Expensive.Common.Results;
+using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
 
 namespace Expensive.Api.Controllers
@@ -13,7 +14,7 @@ namespace Expensive.Api.Controllers
         public IUsersService UserService { get; } = userService;
         public IJwtTokenService JwtTokenService { get; } = jwtTokenService;
 
-        [HttpPost("login")]
+        [HttpPost("login"), AllowAnonymous]
         public async Task<IActionResult> Login([FromBody] LoginRequest request)
         {
             var user = await UserService.GetByUserNameAndPassword(request.UserName, request.Password);
@@ -26,7 +27,7 @@ namespace Expensive.Api.Controllers
             return Ok(new { token }.Success());
         }
 
-        [HttpPost("register")]
+        [HttpPost("register"), AllowAnonymous]
         public async Task<IActionResult> Register([FromBody] LoginRegisterRequest request)
         {
             var user = await UserService.RegisterAsync(new() {
@@ -43,6 +44,17 @@ namespace Expensive.Api.Controllers
             var response = new UserResponse().MapToResponse(user);
 
             return Ok(response.Success("User registered successfully"));
+        }
+
+        [HttpPut("ChangePassword"), Authorize]
+        public async Task<IActionResult> ChangePassword([FromBody] AccountChangePasswordRequest request) 
+        {
+            var updateResult = await UserService.UpdateOldPasswordToPassword(request.UserName, request.OldPassword, request.NewPassord);
+
+            if (!updateResult)
+                return BadRequest(updateResult.Failure("Cannot update user password"));
+
+            return Ok(updateResult.Success("User password updated successfully"));
         }
     }
 }
