@@ -22,7 +22,7 @@ namespace Expensive.Api.Controllers
             if (user == null)
                 return Unauthorized(user.Failure("Invalid username or password"));
 
-            var token = await JwtTokenService.GenerateTokenAsync(user.UserName, user.Email, "generic", user.RowGuid);
+            var token = await JwtTokenService.GenerateTokenAsync($"{user.FirtsName} {user.LastName}", user.UserName!, user.Email!, "generic");
 
             return Ok(new { token }.Success());
         }

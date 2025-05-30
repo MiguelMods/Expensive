@@ -1,4 +1,4 @@
-@Expensive.Api_HostAddress = http://localhost:44133
+@Expensive.Api_HostAddress = https://localhost:7198
 @rowguid = 83ACBDD1-8657-435A-AA7E-2FE643608F8
 
 ### Get all categories
@@ -64,10 +64,14 @@ POST {{Expensive.Api_HostAddress}}/api/JwtToken/revealed
 Accept: application/json
 Content-type: application/json
 {
-  "HashedPassword": "$2a$10$I926KNeYnha8lKQWjR6Zv.l3/Dzd4n9cM6O9.F2j2g8T6Ekf8bnMy"
+  "HashedPassword": ""
 }
 ###
 
+GET {{Expensive.Api_HostAddress}}/api/JwtToken/UserToken
+Accept: application/json
+Authorization: Bearer 
+###
 # @name generatetoken
 
 GET {{Expensive.Api_HostAddress}}/api/JwtToken/Generate
@@ -107,7 +111,7 @@ Content-type: application/json
 ### ChangePassword
 PUT {{Expensive.Api_HostAddress}}/api/Account/ChangePassword
 Accept: application/json
-Authorization: Bearer eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJuYW1lIjoiaG9sZ3VpbiIsIm5pY2tuYW1lIjoiaG9sZ3VpbiIsImVtYWlsIjoiaG9sZ3VpbkBnbWFpbC5jb20iLCJyb2xlIjoiZ2VuZXJpYyIsImp0aSI6IjNmMjZjODI5LTMzOWUtNDk0Ni05MTM0LWM2MDk2ZDhiYzQ0YyIsImV4cCI6MTc0ODU0OTI4MywiaXNzIjoiaHR0cDovL2xvY2FsaG9zdDo0NDEzMyIsImF1ZCI6Imh0dHA6Ly9sb2NhbGhvc3Q6NDQxMzMifQ.Enaq8qifjadnndeUO6KapzShU4BMg0wUvwmzBv5q44U
+Authorization: Bearer   
 Content-type: application/json
 {
     "UserName": "mjmataramos",
