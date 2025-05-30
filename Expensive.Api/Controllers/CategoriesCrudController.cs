@@ -40,7 +40,7 @@ namespace Expensive.Api.Controllers
         }
 
         [HttpPost("")]
-        public async Task<IActionResult> Post([FromBody] CategorieAdd request)
+        public async Task<IActionResult> Post([FromBody] CategorieAddRequest request)
         {
             var result = await CategorieService.AddAsync(new()
             {
@@ -57,7 +57,7 @@ namespace Expensive.Api.Controllers
         }
 
         [HttpPut("")]
-        public async Task<IActionResult> Put([FromBody] CategorieUpdate request)
+        public async Task<IActionResult> Put([FromBody] CategorieUpdateRequest request)
         {
             var result = await CategorieService.UpdateAsync(new()
             {

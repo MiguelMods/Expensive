@@ -15,7 +15,7 @@ namespace Expensive.Api.Controllers
         public IJwtTokenService JwtTokenService { get; } = jwtTokenService;
 
         [HttpPost("login"), AllowAnonymous]
-        public async Task<IActionResult> Login([FromBody] LoginRequest request)
+        public async Task<IActionResult> Login([FromBody] LoginUsernamePasswordRequest request)
         {
             var user = await UserService.GetByUserNameAndPassword(request.UserName, request.Password);
 

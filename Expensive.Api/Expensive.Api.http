@@ -1,4 +1,4 @@
-@Expensive.Api_HostAddress = https://localhost:7198
+@Expensive.Api_HostAddress = http://localhost:44133
 @rowguid = 83ACBDD1-8657-435A-AA7E-2FE643608F8
 
 ### Get all categories
