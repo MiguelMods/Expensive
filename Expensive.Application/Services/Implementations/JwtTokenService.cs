@@ -9,14 +9,14 @@ namespace Expensive.Application.Services.Implementations;
 
 public class JwtTokenService(IConfiguration configuration) : IJwtTokenService
 {
-    public Task<string> GenerateTokenAsync(string userName, string email, string role, string? userId = null)
+    public Task<string> GenerateTokenAsync(string name, string userName, string email, string role)
     {
         var key = new SymmetricSecurityKey(Encoding.UTF8.GetBytes(configuration["Jwt:Key"]));
         var creds = new SigningCredentials(key, SecurityAlgorithms.HmacSha256);
 
         var claims = new[]
         {
-            new Claim(JwtRegisteredClaimNames.Name, userName),
+            new Claim(JwtRegisteredClaimNames.Name, name),
             new Claim(JwtRegisteredClaimNames.Nickname, userName),
             new Claim(JwtRegisteredClaimNames.Email, email),
             new Claim("role", role),
@@ -36,7 +36,7 @@ public class JwtTokenService(IConfiguration configuration) : IJwtTokenService
         return Task.FromResult(stringToken);
     }
 
-    public Task<string> GenerateRefreshTokenAsync(string userName, string email, string role, string? userId = null)
+    public Task<string> GenerateRefreshTokenAsync(string name, string userName, string email, string role)
     {
         throw new NotImplementedException();
     }
