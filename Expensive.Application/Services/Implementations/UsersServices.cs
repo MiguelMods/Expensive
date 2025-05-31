@@ -81,7 +81,6 @@ public class UsersService(IUnitOfWork unitOfWork, IHashPassordService hashPassor
             throw new InvalidOperationException("Email already exists.");
 
         users.Password = await HashPassordService.HashPassword(users.Password!);
-        users.CreatedBy = httpContextUserHelper.GetName() ?? userToken.Name;
 
         var addedEntity = await UsersRepository.AddAsync(users) ?? throw new InvalidOperationException("User registration failed.");
         
