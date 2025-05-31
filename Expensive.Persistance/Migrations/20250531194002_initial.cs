@@ -8,7 +8,7 @@ using Microsoft.EntityFrameworkCore.Migrations;
 namespace Expensive.Persistance.Migrations
 {
     /// <inheritdoc />
-    public partial class Initial : Migration
+    public partial class initial : Migration
     {
         /// <inheritdoc />
         protected override void Up(MigrationBuilder migrationBuilder)
@@ -21,7 +21,7 @@ namespace Expensive.Persistance.Migrations
                 schema: "dbo",
                 columns: table => new
                 {
-                    CategorieId = table.Column<int>(type: "int", nullable: false)
+                    CategorieId = table.Column<long>(type: "bigint", nullable: false)
                         .Annotation("SqlServer:Identity", "1, 1"),
                     Name = table.Column<string>(type: "nvarchar(100)", maxLength: 100, nullable: false),
                     Description = table.Column<string>(type: "nvarchar(500)", maxLength: 500, nullable: true),
@@ -45,7 +45,7 @@ namespace Expensive.Persistance.Migrations
                 schema: "dbo",
                 columns: table => new
                 {
-                    PaymentMethodId = table.Column<int>(type: "int", nullable: false)
+                    PaymentMethodId = table.Column<long>(type: "bigint", nullable: false)
                         .Annotation("SqlServer:Identity", "1, 1"),
                     Name = table.Column<string>(type: "nvarchar(100)", maxLength: 100, nullable: false),
                     Description = table.Column<string>(type: "nvarchar(500)", maxLength: 500, nullable: true),
@@ -68,7 +68,7 @@ namespace Expensive.Persistance.Migrations
                 schema: "dbo",
                 columns: table => new
                 {
-                    UserId = table.Column<int>(type: "int", nullable: false)
+                    UserId = table.Column<long>(type: "bigint", nullable: false)
                         .Annotation("SqlServer:Identity", "1, 1"),
                     FirtsName = table.Column<string>(type: "nvarchar(100)", maxLength: 100, nullable: false),
                     LastName = table.Column<string>(type: "nvarchar(100)", maxLength: 100, nullable: false),
@@ -95,8 +95,8 @@ namespace Expensive.Persistance.Migrations
                 {
                     UserCategorieId = table.Column<long>(type: "bigint", nullable: false)
                         .Annotation("SqlServer:Identity", "1, 1"),
-                    UserId = table.Column<int>(type: "int", nullable: false),
-                    CategorieId = table.Column<int>(type: "int", nullable: false),
+                    UserId = table.Column<long>(type: "bigint", nullable: false),
+                    CategorieId = table.Column<long>(type: "bigint", nullable: false),
                     CreatedAt = table.Column<DateTime>(type: "datetime2", nullable: false, defaultValueSql: "GETDATE()"),
                     CreatedBy = table.Column<string>(type: "nvarchar(100)", maxLength: 100, nullable: false),
                     UpdatedAt = table.Column<DateTime>(type: "datetime2", nullable: false, defaultValueSql: "GETDATE()"),
@@ -129,10 +129,10 @@ namespace Expensive.Persistance.Migrations
                 schema: "dbo",
                 columns: table => new
                 {
-                    UserPaymentMethodId = table.Column<int>(type: "int", nullable: false)
+                    UserPaymentMethodId = table.Column<long>(type: "bigint", nullable: false)
                         .Annotation("SqlServer:Identity", "1, 1"),
-                    UserId = table.Column<int>(type: "int", nullable: false),
-                    PaymentMethodId = table.Column<int>(type: "int", nullable: false),
+                    UserId = table.Column<long>(type: "bigint", nullable: false),
+                    PaymentMethodId = table.Column<long>(type: "bigint", nullable: false),
                     CreatedAt = table.Column<DateTime>(type: "datetime2", nullable: false, defaultValueSql: "GETDATE()"),
                     CreatedBy = table.Column<string>(type: "nvarchar(100)", maxLength: 100, nullable: false),
                     UpdatedAt = table.Column<DateTime>(type: "datetime2", nullable: false, defaultValueSql: "GETDATE()"),
@@ -166,14 +166,14 @@ namespace Expensive.Persistance.Migrations
                 columns: new[] { "CategorieId", "CreatedBy", "Description", "IsDefault", "Name", "Operation", "UpdatedBy" },
                 values: new object[,]
                 {
-                    { 1, "Created By Default", "Categoria de gastos del Hogar", true, "Hogar", "EXPENSE", null },
-                    { 2, "Created By Default", "Categoria de gastos del Automovil", true, "Automovil", "EXPENSE", null },
-                    { 3, "Created By Default", "Categoria de gastos del Mascotas", true, "Mascotas", "EXPENSE", null },
-                    { 4, "Created By Default", "Categoria de gastos del Salud", true, "Salud", "EXPENSE", null },
-                    { 5, "Created By Default", "Categoria de gastos del Mercado", true, "Mercado", "EXPENSE", null },
-                    { 6, "Created By Default", "Categoria de gastos del Entretenimiento", true, "Entretenimiento", "EXPENSE", null },
-                    { 7, "Created By Default", "Categoria de ingresos del ahorro", true, "Ahorros", "INCOME", null },
-                    { 8, "Created By Default", "Categoria de ingresos del sueldo", true, "Sueldo", "INCOME", null }
+                    { 1L, "Created By Default", "Categoria de gastos del Hogar", true, "Hogar", "EXPENSE", null },
+                    { 2L, "Created By Default", "Categoria de gastos del Automovil", true, "Automovil", "EXPENSE", null },
+                    { 3L, "Created By Default", "Categoria de gastos del Mascotas", true, "Mascotas", "EXPENSE", null },
+                    { 4L, "Created By Default", "Categoria de gastos del Salud", true, "Salud", "EXPENSE", null },
+                    { 5L, "Created By Default", "Categoria de gastos del Mercado", true, "Mercado", "EXPENSE", null },
+                    { 6L, "Created By Default", "Categoria de gastos del Entretenimiento", true, "Entretenimiento", "EXPENSE", null },
+                    { 7L, "Created By Default", "Categoria de ingresos del ahorro", true, "Ahorros", "INCOME", null },
+                    { 8L, "Created By Default", "Categoria de ingresos del sueldo", true, "Sueldo", "INCOME", null }
                 });
 
             migrationBuilder.InsertData(
@@ -182,16 +182,16 @@ namespace Expensive.Persistance.Migrations
                 columns: new[] { "PaymentMethodId", "CreatedBy", "Description", "IsDefault", "Name", "UpdatedBy" },
                 values: new object[,]
                 {
-                    { 1, "Created By Default", "Metodo de pago en efectivo", true, "Efectivo", null },
-                    { 2, "Created By Default", "Metodo de pago en Tarjeta de Credito", true, "Tarjeta de Credito", null },
-                    { 3, "Created By Default", "Metodo de pago en Tarjeta de Debito", true, "Tarjeta de Debito", null }
+                    { 1L, "Created By Default", "Metodo de pago en efectivo", true, "Efectivo", null },
+                    { 2L, "Created By Default", "Metodo de pago en Tarjeta de Credito", true, "Tarjeta de Credito", null },
+                    { 3L, "Created By Default", "Metodo de pago en Tarjeta de Debito", true, "Tarjeta de Debito", null }
                 });
 
             migrationBuilder.InsertData(
                 schema: "dbo",
                 table: "Users",
                 columns: new[] { "UserId", "CreatedBy", "Email", "FirtsName", "LastName", "Password", "UpdatedBy", "UserName" },
-                values: new object[] { 1, "System", "miguelmodd@gmail.com", "Miguel Jose", "Mata Ramos", "jose@123A", null, "miguelmodd" });
+                values: new object[] { 1L, "System", "miguelmodd@gmail.com", "Miguel Jose", "Mata Ramos", "jose@123A", null, "miguelmodd" });
 
             migrationBuilder.InsertData(
                 schema: "dbo",
@@ -199,14 +199,14 @@ namespace Expensive.Persistance.Migrations
                 columns: new[] { "UserCategorieId", "CategorieId", "CreatedBy", "UpdatedBy", "UserId" },
                 values: new object[,]
                 {
-                    { 1L, 1, "Created By Default", null, 1 },
-                    { 2L, 2, "Created By Default", null, 1 },
-                    { 3L, 3, "Created By Default", null, 1 },
-                    { 4L, 4, "Created By Default", null, 1 },
-                    { 5L, 5, "Created By Default", null, 1 },
-                    { 6L, 6, "Created By Default", null, 1 },
-                    { 7L, 7, "Created By Default", null, 1 },
-                    { 8L, 8, "Created By Default", null, 1 }
+                    { 1L, 1L, "Created By Default", null, 1L },
+                    { 2L, 2L, "Created By Default", null, 1L },
+                    { 3L, 3L, "Created By Default", null, 1L },
+                    { 4L, 4L, "Created By Default", null, 1L },
+                    { 5L, 5L, "Created By Default", null, 1L },
+                    { 6L, 6L, "Created By Default", null, 1L },
+                    { 7L, 7L, "Created By Default", null, 1L },
+                    { 8L, 8L, "Created By Default", null, 1L }
                 });
 
             migrationBuilder.InsertData(
@@ -215,9 +215,9 @@ namespace Expensive.Persistance.Migrations
                 columns: new[] { "UserPaymentMethodId", "CreatedBy", "PaymentMethodId", "UpdatedBy", "UserId" },
                 values: new object[,]
                 {
-                    { 1, "Created By Default", 1, null, 1 },
-                    { 2, "Created By Default", 2, null, 1 },
-                    { 3, "Created By Default", 3, null, 1 }
+                    { 1L, "Created By Default", 1L, null, 1L },
+                    { 2L, "Created By Default", 2L, null, 1L },
+                    { 3L, "Created By Default", 3L, null, 1L }
                 });
 
             migrationBuilder.CreateIndex(

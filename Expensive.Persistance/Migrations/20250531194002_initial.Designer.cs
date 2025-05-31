@@ -12,8 +12,8 @@ using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 namespace Expensive.Persistance.Migrations
 {
     [DbContext(typeof(ExpensiveApplicationDataContext))]
-    [Migration("20250526001254_Initial")]
-    partial class Initial
+    [Migration("20250531194002_initial")]
+    partial class initial
     {
         /// <inheritdoc />
         protected override void BuildTargetModel(ModelBuilder modelBuilder)
@@ -27,11 +27,11 @@ namespace Expensive.Persistance.Migrations
 
             modelBuilder.Entity("Expensive.Domain.Entities.Categories", b =>
                 {
-                    b.Property<int>("CategorieId")
+                    b.Property<long>("CategorieId")
                         .ValueGeneratedOnAdd()
-                        .HasColumnType("int");
+                        .HasColumnType("bigint");
 
-                    SqlServerPropertyBuilderExtensions.UseIdentityColumn(b.Property<int>("CategorieId"));
+                    SqlServerPropertyBuilderExtensions.UseIdentityColumn(b.Property<long>("CategorieId"));
 
                     b.Property<DateTime>("CreatedAt")
                         .ValueGeneratedOnAdd()
@@ -102,7 +102,7 @@ namespace Expensive.Persistance.Migrations
                     b.HasData(
                         new
                         {
-                            CategorieId = 1,
+                            CategorieId = 1L,
                             CreatedAt = new DateTime(1, 1, 1, 0, 0, 0, 0, DateTimeKind.Unspecified),
                             CreatedBy = "Created By Default",
                             Description = "Categoria de gastos del Hogar",
@@ -115,7 +115,7 @@ namespace Expensive.Persistance.Migrations
                         },
                         new
                         {
-                            CategorieId = 2,
+                            CategorieId = 2L,
                             CreatedAt = new DateTime(1, 1, 1, 0, 0, 0, 0, DateTimeKind.Unspecified),
                             CreatedBy = "Created By Default",
                             Description = "Categoria de gastos del Automovil",
@@ -128,7 +128,7 @@ namespace Expensive.Persistance.Migrations
                         },
                         new
                         {
-                            CategorieId = 3,
+                            CategorieId = 3L,
                             CreatedAt = new DateTime(1, 1, 1, 0, 0, 0, 0, DateTimeKind.Unspecified),
                             CreatedBy = "Created By Default",
                             Description = "Categoria de gastos del Mascotas",
@@ -141,7 +141,7 @@ namespace Expensive.Persistance.Migrations
                         },
                         new
                         {
-                            CategorieId = 4,
+                            CategorieId = 4L,
                             CreatedAt = new DateTime(1, 1, 1, 0, 0, 0, 0, DateTimeKind.Unspecified),
                             CreatedBy = "Created By Default",
                             Description = "Categoria de gastos del Salud",
@@ -154,7 +154,7 @@ namespace Expensive.Persistance.Migrations
                         },
                         new
                         {
-                            CategorieId = 5,
+                            CategorieId = 5L,
                             CreatedAt = new DateTime(1, 1, 1, 0, 0, 0, 0, DateTimeKind.Unspecified),
                             CreatedBy = "Created By Default",
                             Description = "Categoria de gastos del Mercado",
@@ -167,7 +167,7 @@ namespace Expensive.Persistance.Migrations
                         },
                         new
                         {
-                            CategorieId = 6,
+                            CategorieId = 6L,
                             CreatedAt = new DateTime(1, 1, 1, 0, 0, 0, 0, DateTimeKind.Unspecified),
                             CreatedBy = "Created By Default",
                             Description = "Categoria de gastos del Entretenimiento",
@@ -180,7 +180,7 @@ namespace Expensive.Persistance.Migrations
                         },
                         new
                         {
-                            CategorieId = 7,
+                            CategorieId = 7L,
                             CreatedAt = new DateTime(1, 1, 1, 0, 0, 0, 0, DateTimeKind.Unspecified),
                             CreatedBy = "Created By Default",
                             Description = "Categoria de ingresos del ahorro",
@@ -193,7 +193,7 @@ namespace Expensive.Persistance.Migrations
                         },
                         new
                         {
-                            CategorieId = 8,
+                            CategorieId = 8L,
                             CreatedAt = new DateTime(1, 1, 1, 0, 0, 0, 0, DateTimeKind.Unspecified),
                             CreatedBy = "Created By Default",
                             Description = "Categoria de ingresos del sueldo",
@@ -208,11 +208,11 @@ namespace Expensive.Persistance.Migrations
 
             modelBuilder.Entity("Expensive.Domain.Entities.PaymentMethods", b =>
                 {
-                    b.Property<int>("PaymentMethodId")
+                    b.Property<long>("PaymentMethodId")
                         .ValueGeneratedOnAdd()
-                        .HasColumnType("int");
+                        .HasColumnType("bigint");
 
-                    SqlServerPropertyBuilderExtensions.UseIdentityColumn(b.Property<int>("PaymentMethodId"));
+                    SqlServerPropertyBuilderExtensions.UseIdentityColumn(b.Property<long>("PaymentMethodId"));
 
                     b.Property<DateTime>("CreatedAt")
                         .ValueGeneratedOnAdd()
@@ -278,7 +278,7 @@ namespace Expensive.Persistance.Migrations
                     b.HasData(
                         new
                         {
-                            PaymentMethodId = 1,
+                            PaymentMethodId = 1L,
                             CreatedAt = new DateTime(1, 1, 1, 0, 0, 0, 0, DateTimeKind.Unspecified),
                             CreatedBy = "Created By Default",
                             Description = "Metodo de pago en efectivo",
@@ -290,7 +290,7 @@ namespace Expensive.Persistance.Migrations
                         },
                         new
                         {
-                            PaymentMethodId = 2,
+                            PaymentMethodId = 2L,
                             CreatedAt = new DateTime(1, 1, 1, 0, 0, 0, 0, DateTimeKind.Unspecified),
                             CreatedBy = "Created By Default",
                             Description = "Metodo de pago en Tarjeta de Credito",
@@ -302,7 +302,7 @@ namespace Expensive.Persistance.Migrations
                         },
                         new
                         {
-                            PaymentMethodId = 3,
+                            PaymentMethodId = 3L,
                             CreatedAt = new DateTime(1, 1, 1, 0, 0, 0, 0, DateTimeKind.Unspecified),
                             CreatedBy = "Created By Default",
                             Description = "Metodo de pago en Tarjeta de Debito",
@@ -322,8 +322,8 @@ namespace Expensive.Persistance.Migrations
 
                     SqlServerPropertyBuilderExtensions.UseIdentityColumn(b.Property<long>("UserCategorieId"));
 
-                    b.Property<int>("CategorieId")
-                        .HasColumnType("int");
+                    b.Property<long>("CategorieId")
+                        .HasColumnType("bigint");
 
                     b.Property<DateTime>("CreatedAt")
                         .ValueGeneratedOnAdd()
@@ -359,8 +359,8 @@ namespace Expensive.Persistance.Migrations
                         .HasMaxLength(100)
                         .HasColumnType("nvarchar(100)");
 
-                    b.Property<int>("UserId")
-                        .HasColumnType("int");
+                    b.Property<long>("UserId")
+                        .HasColumnType("bigint");
 
                     b.HasKey("UserCategorieId");
 
@@ -381,100 +381,100 @@ namespace Expensive.Persistance.Migrations
                         new
                         {
                             UserCategorieId = 1L,
-                            CategorieId = 1,
+                            CategorieId = 1L,
                             CreatedAt = new DateTime(1, 1, 1, 0, 0, 0, 0, DateTimeKind.Unspecified),
                             CreatedBy = "Created By Default",
                             IsActive = false,
                             IsDeleted = false,
                             UpdatedAt = new DateTime(1, 1, 1, 0, 0, 0, 0, DateTimeKind.Unspecified),
-                            UserId = 1
+                            UserId = 1L
                         },
                         new
                         {
                             UserCategorieId = 2L,
-                            CategorieId = 2,
+                            CategorieId = 2L,
                             CreatedAt = new DateTime(1, 1, 1, 0, 0, 0, 0, DateTimeKind.Unspecified),
                             CreatedBy = "Created By Default",
                             IsActive = false,
                             IsDeleted = false,
                             UpdatedAt = new DateTime(1, 1, 1, 0, 0, 0, 0, DateTimeKind.Unspecified),
-                            UserId = 1
+                            UserId = 1L
                         },
                         new
                         {
                             UserCategorieId = 3L,
-                            CategorieId = 3,
+                            CategorieId = 3L,
                             CreatedAt = new DateTime(1, 1, 1, 0, 0, 0, 0, DateTimeKind.Unspecified),
                             CreatedBy = "Created By Default",
                             IsActive = false,
                             IsDeleted = false,
                             UpdatedAt = new DateTime(1, 1, 1, 0, 0, 0, 0, DateTimeKind.Unspecified),
-                            UserId = 1
+                            UserId = 1L
                         },
                         new
                         {
                             UserCategorieId = 4L,
-                            CategorieId = 4,
+                            CategorieId = 4L,
                             CreatedAt = new DateTime(1, 1, 1, 0, 0, 0, 0, DateTimeKind.Unspecified),
                             CreatedBy = "Created By Default",
                             IsActive = false,
                             IsDeleted = false,
                             UpdatedAt = new DateTime(1, 1, 1, 0, 0, 0, 0, DateTimeKind.Unspecified),
-                            UserId = 1
+                            UserId = 1L
                         },
                         new
                         {
                             UserCategorieId = 5L,
-                            CategorieId = 5,
+                            CategorieId = 5L,
                             CreatedAt = new DateTime(1, 1, 1, 0, 0, 0, 0, DateTimeKind.Unspecified),
                             CreatedBy = "Created By Default",
                             IsActive = false,
                             IsDeleted = false,
                             UpdatedAt = new DateTime(1, 1, 1, 0, 0, 0, 0, DateTimeKind.Unspecified),
-                            UserId = 1
+                            UserId = 1L
                         },
                         new
                         {
                             UserCategorieId = 6L,
-                            CategorieId = 6,
+                            CategorieId = 6L,
                             CreatedAt = new DateTime(1, 1, 1, 0, 0, 0, 0, DateTimeKind.Unspecified),
                             CreatedBy = "Created By Default",
                             IsActive = false,
                             IsDeleted = false,
                             UpdatedAt = new DateTime(1, 1, 1, 0, 0, 0, 0, DateTimeKind.Unspecified),
-                            UserId = 1
+                            UserId = 1L
                         },
                         new
                         {
                             UserCategorieId = 7L,
-                            CategorieId = 7,
+                            CategorieId = 7L,
                             CreatedAt = new DateTime(1, 1, 1, 0, 0, 0, 0, DateTimeKind.Unspecified),
                             CreatedBy = "Created By Default",
                             IsActive = false,
                             IsDeleted = false,
                             UpdatedAt = new DateTime(1, 1, 1, 0, 0, 0, 0, DateTimeKind.Unspecified),
-                            UserId = 1
+                            UserId = 1L
                         },
                         new
                         {
                             UserCategorieId = 8L,
-                            CategorieId = 8,
+                            CategorieId = 8L,
                             CreatedAt = new DateTime(1, 1, 1, 0, 0, 0, 0, DateTimeKind.Unspecified),
                             CreatedBy = "Created By Default",
                             IsActive = false,
                             IsDeleted = false,
                             UpdatedAt = new DateTime(1, 1, 1, 0, 0, 0, 0, DateTimeKind.Unspecified),
-                            UserId = 1
+                            UserId = 1L
                         });
                 });
 
             modelBuilder.Entity("Expensive.Domain.Entities.UserPaymentMethods", b =>
                 {
-                    b.Property<int>("UserPaymentMethodId")
+                    b.Property<long>("UserPaymentMethodId")
                         .ValueGeneratedOnAdd()
-                        .HasColumnType("int");
+                        .HasColumnType("bigint");
 
-                    SqlServerPropertyBuilderExtensions.UseIdentityColumn(b.Property<int>("UserPaymentMethodId"));
+                    SqlServerPropertyBuilderExtensions.UseIdentityColumn(b.Property<long>("UserPaymentMethodId"));
 
                     b.Property<DateTime>("CreatedAt")
                         .ValueGeneratedOnAdd()
@@ -496,8 +496,8 @@ namespace Expensive.Persistance.Migrations
                         .HasColumnType("bit")
                         .HasDefaultValue(false);
 
-                    b.Property<int>("PaymentMethodId")
-                        .HasColumnType("int");
+                    b.Property<long>("PaymentMethodId")
+                        .HasColumnType("bigint");
 
                     b.Property<string>("RowGuid")
                         .ValueGeneratedOnAdd()
@@ -513,8 +513,8 @@ namespace Expensive.Persistance.Migrations
                         .HasMaxLength(100)
                         .HasColumnType("nvarchar(100)");
 
-                    b.Property<int>("UserId")
-                        .HasColumnType("int");
+                    b.Property<long>("UserId")
+                        .HasColumnType("bigint");
 
                     b.HasKey("UserPaymentMethodId");
 
@@ -534,46 +534,46 @@ namespace Expensive.Persistance.Migrations
                     b.HasData(
                         new
                         {
-                            UserPaymentMethodId = 1,
+                            UserPaymentMethodId = 1L,
                             CreatedAt = new DateTime(1, 1, 1, 0, 0, 0, 0, DateTimeKind.Unspecified),
                             CreatedBy = "Created By Default",
                             IsActive = false,
                             IsDeleted = false,
-                            PaymentMethodId = 1,
+                            PaymentMethodId = 1L,
                             UpdatedAt = new DateTime(1, 1, 1, 0, 0, 0, 0, DateTimeKind.Unspecified),
-                            UserId = 1
+                            UserId = 1L
                         },
                         new
                         {
-                            UserPaymentMethodId = 2,
+                            UserPaymentMethodId = 2L,
                             CreatedAt = new DateTime(1, 1, 1, 0, 0, 0, 0, DateTimeKind.Unspecified),
                             CreatedBy = "Created By Default",
                             IsActive = false,
                             IsDeleted = false,
-                            PaymentMethodId = 2,
+                            PaymentMethodId = 2L,
                             UpdatedAt = new DateTime(1, 1, 1, 0, 0, 0, 0, DateTimeKind.Unspecified),
-                            UserId = 1
+                            UserId = 1L
                         },
                         new
                         {
-                            UserPaymentMethodId = 3,
+                            UserPaymentMethodId = 3L,
                             CreatedAt = new DateTime(1, 1, 1, 0, 0, 0, 0, DateTimeKind.Unspecified),
                             CreatedBy = "Created By Default",
                             IsActive = false,
                             IsDeleted = false,
-                            PaymentMethodId = 3,
+                            PaymentMethodId = 3L,
                             UpdatedAt = new DateTime(1, 1, 1, 0, 0, 0, 0, DateTimeKind.Unspecified),
-                            UserId = 1
+                            UserId = 1L
                         });
                 });
 
             modelBuilder.Entity("Expensive.Domain.Entities.Users", b =>
                 {
-                    b.Property<int>("UserId")
+                    b.Property<long>("UserId")
                         .ValueGeneratedOnAdd()
-                        .HasColumnType("int");
+                        .HasColumnType("bigint");
 
-                    SqlServerPropertyBuilderExtensions.UseIdentityColumn(b.Property<int>("UserId"));
+                    SqlServerPropertyBuilderExtensions.UseIdentityColumn(b.Property<long>("UserId"));
 
                     b.Property<DateTime>("CreatedAt")
                         .ValueGeneratedOnAdd()
@@ -654,7 +654,7 @@ namespace Expensive.Persistance.Migrations
                     b.HasData(
                         new
                         {
-                            UserId = 1,
+                            UserId = 1L,
                             CreatedAt = new DateTime(1, 1, 1, 0, 0, 0, 0, DateTimeKind.Unspecified),
                             CreatedBy = "System",
                             Email = "miguelmodd@gmail.com",
