@@ -9,9 +9,10 @@ namespace Expensive.Api.Controllers
 {
     [Route("api/[controller]")]
     [ApiController]
-    public class AccountController(IUsersService userService, IJwtTokenService jwtTokenService) : ControllerBase
+    public class AccountController(IUsersService userService, IUserCategoriesService userCategoriesService, IJwtTokenService jwtTokenService) : ControllerBase
     {
         public IUsersService UserService { get; } = userService;
+        public IUserCategoriesService UserCategoriesService { get; } = userCategoriesService;
         public IJwtTokenService JwtTokenService { get; } = jwtTokenService;
 
         [HttpPost("login"), AllowAnonymous]
@@ -35,11 +36,17 @@ namespace Expensive.Api.Controllers
                 LastName = request.LastName,
                 Email = request.Email,
                 UserName = request.UserName,
-                Password = request.Password
+                Password = request.Password,
+                CreatedBy = request.FirtName + " " + request.LastName,
             });
 
             if (user == null)
                 return BadRequest(user.Failure("User registration failed"));
+
+            var defaultCategories = await UserCategoriesService.AddDefaultUserCategories(user.UserId);
+
+            if (!defaultCategories)
+                return BadRequest(defaultCategories.Failure("Failed to add default categories for the user"));
 
             var response = new UserResponse().MapToResponse(user);
 
