@@ -5,7 +5,7 @@ namespace Expensive.Application.Responses;
 
 public class UserResponse : BaseResponse, IMapResponse<Users, UserResponse>
 {
-    public int UserId { get; set; }
+    public long UserId { get; set; }
     public string? FirtsName { get; set; }
     public string? LastName { get; set; }
     public string? Email { get; set; }

@@ -5,7 +5,7 @@ namespace Expensive.Application.Responses
 {
     public class CategorieResponse : BaseResponse, IMapResponse<Categories, CategorieResponse>
     {
-        public int CategorieId { get; set; }
+        public long CategorieId { get; set; }
         public string? Name { get; set; }
         public string? Description { get; set; }
         public bool IsDefault { get; set; }
