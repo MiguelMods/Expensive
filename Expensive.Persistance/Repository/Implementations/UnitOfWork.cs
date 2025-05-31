@@ -12,6 +12,8 @@ public class UnitOfWork(ExpensiveApplicationDataContext expensiveApplicationData
 
     public IPaymentMethodsRepository PaymentMethods => throw new NotImplementedException();
 
+    public IUserCategoriesRepository UserCategoriesRepository => new UserCategoriesRepository(expensiveApplicationDataContext);
+
     public IGenericRepository<Type> GenericRepository<Type>() where Type : BaseEntity => new GenericRepository<Type>(expensiveApplicationDataContext);
 
     public async Task<int> SaveChangesAsync()
