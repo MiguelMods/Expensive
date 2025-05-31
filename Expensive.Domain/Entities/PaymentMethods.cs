@@ -2,7 +2,7 @@
 
 public class PaymentMethods : BaseEntity
 {
-    public int PaymentMethodId { get; set; }
+    public long PaymentMethodId { get; set; }
     public string? Name { get; set; }
     public string? Description { get; set; }
     public bool IsDefault { get; set; }
