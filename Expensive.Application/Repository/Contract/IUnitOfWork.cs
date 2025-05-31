@@ -7,6 +7,7 @@ public interface IUnitOfWork : IDisposable
     ICategoriesRepository Categories { get; }
     IUsersRepository Users { get; }
     IPaymentMethodsRepository PaymentMethods { get; }
+    IUserCategoriesRepository UserCategoriesRepository { get; }
     IGenericRepository<Type> GenericRepository<Type>() where Type : BaseEntity;
     Task<int> SaveChangesAsync();
 }

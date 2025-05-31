@@ -14,6 +14,7 @@ public static class Dependencies
         services.AddScoped<IHashPassordService, HashPassordService>();
         services.AddScoped<ICategorieService, CategorieService>();
         services.AddScoped<IUsersService, UsersService>();
+        services.AddScoped<IUserCategoriesService, UserCategoriesService>();
         services.AddScoped<IReadOnlyCategorieService, ReadOnlyCategorieService>();
     }
 }
