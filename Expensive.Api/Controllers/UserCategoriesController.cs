@@ -66,6 +66,20 @@ public class UserCategoriesController(IUsersService usersService, IUserCategorie
     [HttpPut]
     public async Task<IActionResult> UpdateUserCategorie([FromBody] CategorieUpdateRequest categorieUpdateRequest)
     {
-        return Ok();
+        var userId = await UsersService.GetByUserNameAsync(UserToken.UserName);
+
+        if (userId == null)
+            return BadRequest("User not found.".Failure());
+
+        var category = await UserCategoriesService.UpdateUserCategorie(new CategoryDto
+        {
+            CategorieId = categorieUpdateRequest.categoryId,
+            Name = categorieUpdateRequest.Name,
+            Description = categorieUpdateRequest.Description
+        });
+
+        return category != null 
+            ? Ok(category.Success("Category updated successfully.")) 
+            : BadRequest("Failed to update category.".Failure());
     }
 }

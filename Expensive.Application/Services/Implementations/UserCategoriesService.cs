@@ -78,4 +78,25 @@ public class UserCategoriesService(IUnitOfWork unitOfWork, IHttpContextUserHelpe
 
         return (CategoryDto)addedCategory;
     }
+
+    public async Task<CategoryDto> UpdateUserCategorie(CategoryDto categoryDto)
+    {
+        var updatedCategory = await UnitOfWork.Categories.UpdateAsync(new Categories
+        {
+            CategorieId = categoryDto.CategorieId,
+            Name = categoryDto.Name,
+            Description = categoryDto.Description,
+            IsActive = categoryDto.IsActive,
+            IsDeleted = categoryDto.IsDeleted,
+            UpdatedAt = DateTime.UtcNow,
+            UpdatedBy = UserToken.Name
+        });
+        
+        var saveResult = await UnitOfWork.SaveChangesAsync();
+        
+        if (saveResult <= 0 || updatedCategory == null)
+            throw new Exception("Failed to update category.");
+
+        return (CategoryDto)updatedCategory;
+    }
 }

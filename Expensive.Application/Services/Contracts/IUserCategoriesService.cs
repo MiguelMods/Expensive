@@ -6,5 +6,6 @@ public interface IUserCategoriesService
 {
     Task<IEnumerable<CategoryDto?>> GetAllUserCategories(long userId);
     Task<CategoryDto> AddNewCategorieToUser(long userId, CategoryDto categoryDto);
+    Task<CategoryDto> UpdateUserCategorie(CategoryDto categoryDto);
     Task<bool> AddDefaultUserCategories(long userId);
 }
